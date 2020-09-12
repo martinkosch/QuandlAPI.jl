@@ -9,7 +9,7 @@ function raw_get(id::AbstractString;
     transformation::AbstractString="",
     api_key::AbstractString="",
     )
-    
+
     if format ∉ [:json, :xml, :csv]
         error("Format $(format) is not supported.")
     end
@@ -53,5 +53,38 @@ function get_json(id::AbstractString;
         transformation,
         api_key,
         )
+
     return JSON.parse(json)
+end
+
+function get_timearray(id::AbstractString;
+    start_date::AbstractString="",
+    end_date::AbstractString="",
+    rows::AbstractString="",
+    column::AbstractString="",
+    order::AbstractString="",
+    collapse::AbstractString="",
+    transformation::AbstractString="",
+    api_key::AbstractString="",
+    )
+    json = get_json(id;
+        start_date,
+        end_date,
+        rows,
+        column,
+        order,
+        collapse,
+        transformation,
+        api_key,
+        )
+
+    timestamps = Date.(hcat(json["dataset"]["data"]...)[1,:])
+    data = hcat(json["dataset"]["data"]...)[2,:]
+    colnames = Symbol.(json["dataset"]["column_names"][2:end])
+
+    meta = json["dataset"]
+    delete!(meta, "data")
+    delete!(meta, "column_names")
+
+    return TimeArray(timestamps, data, colnames, meta)
 end
