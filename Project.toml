@@ -1,0 +1,13 @@
+name = "QuandlAPI"
+uuid = "8cf597f0-cfbf-44c5-bbd4-e4d5bd7d527a"
+authors = ["Martin Kosch <martin.kosch@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
