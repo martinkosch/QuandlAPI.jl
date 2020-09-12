@@ -1,5 +1,7 @@
 module QuandlAPI
 
-# Write your package code here.
+using HTTP
+using JSON
 
+include("requests.jl")
 end
